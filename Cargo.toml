@@ -12,3 +12,4 @@ csv = "1.1.6"
 serde = { version = "1.0.125", features = ["derive"] }
 anyhow = "1.0.40"
 tokio = { version = "1", features = ["full"] }
+dotenv = "0.15.0"
