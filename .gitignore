@@ -2,3 +2,4 @@
 .idea
 .env
 output.csv
+.DS_Store
