@@ -129,7 +129,10 @@ fn get_township(result: GeoDataAddress) -> Option<(String, String)> {
 #[tokio::main]
 async fn main() -> Result<(), Error> {
     dotenv().ok();
-    fs::remove_file("output.csv")?;
+
+    if let Err(_) = fs::remove_file("output.csv") {
+        println!("Tried to remove output.csv, but didn't exist. Fine!");
+    }
 
     if let Ok(addrs) = read_addresses() {
         let results = get_geo_data(addrs).await?;
