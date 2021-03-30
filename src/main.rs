@@ -63,8 +63,8 @@ async fn get_geo_data(addresses: Vec<String>) -> Result<Vec<GeoDataAddress>, Err
 
     println!("Starting data gathering...");
 
-    for address in addresses {
-        println!("Processing {}", address);
+    for (i, address) in addresses.iter().enumerate() {
+        println!("Processing #{} - {}", i + 1, address);
 
         let response: GeoDataAddress = client
             .get(base_url)
