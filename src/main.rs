@@ -3,8 +3,7 @@ use csv::Writer;
 use dotenv::dotenv;
 use serde::{Deserialize, Serialize};
 use std::io::Write;
-use std::thread::sleep;
-use std::{env, fs, io, time};
+use std::{env, fs, io};
 
 #[derive(Debug, Serialize, Deserialize)]
 struct GeoDataAddress {
@@ -41,6 +40,7 @@ fn read_addresses() -> Result<Vec<String>, Error> {
 
     let contents = fs::read_to_string(path.trim())?;
     let addresses: Vec<String> = contents.split("\n").map(|s| s.to_string()).collect();
+    println!("Successfully read your list of addresses!");
 
     Ok(addresses)
 }
@@ -61,7 +61,11 @@ async fn get_geo_data(addresses: Vec<String>) -> Result<Vec<GeoDataAddress>, Err
     let mut results: Vec<GeoDataAddress> = vec![];
     let client = reqwest::Client::new();
 
+    println!("Starting data gathering...");
+
     for address in addresses {
+        println!("Processing {}", address);
+
         let response: GeoDataAddress = client
             .get(base_url)
             .query(&[("key", &api_key), ("address", &address)])
@@ -71,7 +75,6 @@ async fn get_geo_data(addresses: Vec<String>) -> Result<Vec<GeoDataAddress>, Err
             .await?;
 
         results.push(response);
-        sleep(time::Duration::from_millis(25));
     }
 
     Ok(results)
