@@ -106,20 +106,12 @@ fn get_township(result: GeoDataAddress) -> Option<(String, String)> {
             break;
         }
 
-        if addr_component
-            .types
-            .iter()
-            .any(|t| t == "administrative_area_level_3")
-        {
+        if addr_component.types.iter().any(|t| t == "administrative_area_level_3") {
             township = addr_component.long_name.clone();
             break;
         }
 
-        if addr_component
-            .types
-            .iter()
-            .any(|t| t == "administrative_area_level_2")
-        {
+        if addr_component.types.iter().any(|t| t == "administrative_area_level_2") {
             township = addr_component.long_name.clone();
             break;
         }
@@ -129,10 +121,7 @@ fn get_township(result: GeoDataAddress) -> Option<(String, String)> {
         township = String::from("Springfield City");
     }
 
-    println!(
-        "Township for {} is {}",
-        &first_result.formatted_address, township
-    );
+    println!("Township for {} is {}", &first_result.formatted_address, township);
 
     return Some((first_result.formatted_address.clone(), township));
 }
